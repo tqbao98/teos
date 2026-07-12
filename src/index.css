@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Teos brand palette */
+  --honey-bronze: #f6ae2d;
+  --papaya-whip: #ffecc8;
+  --ebony: #626c66;
+  --bright-snow: #f6f8f6;
+  --charcoal-brown: #2a2f2a;
+
+  --background: var(--bright-snow);
+  --foreground: var(--charcoal-brown);
+  --card: #ffffff;
+  --card-foreground: var(--charcoal-brown);
+  --popover: #ffffff;
+  --popover-foreground: var(--charcoal-brown);
+  --primary: var(--honey-bronze);
+  --primary-foreground: var(--charcoal-brown);
+  --secondary: var(--papaya-whip);
+  --secondary-foreground: var(--charcoal-brown);
+  --muted: #eef1ee;
+  --muted-foreground: var(--ebony);
+  --accent: var(--papaya-whip);
+  --accent-foreground: var(--charcoal-brown);
+  --destructive: #dc2626;
+  --border: #e2e8e4;
+  --input: #e2e8e4;
+  --ring: var(--honey-bronze);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--honey-bronze) 35%, white);
+}
+
+section[id] {
+  scroll-margin-top: 5rem;
+}

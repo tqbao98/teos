@@ -1,0 +1,9 @@
+services:
+  teos-landing:
+    build:
+      context: .
+      args:
+        VITE_FORMSPREE_ID: ${VITE_FORMSPREE_ID:-}
+    ports:
+      - "3005:3005"
+    restart: unless-stopped
