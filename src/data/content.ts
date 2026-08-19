@@ -445,8 +445,9 @@ export const siteContent = {
   },
   cookies: {
     title: "Cookies",
-    body: "We use analytics cookies (PostHog) to understand how the site is used.",
+    body: "We use analytics cookies to understand how the site is used. Decline and your visit is still counted anonymously, without cookies.",
     acceptLabel: "Accept",
+    declineLabel: "Decline",
     settingsLabel: "Cookies",
   },
   footer: {

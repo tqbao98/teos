@@ -2,24 +2,19 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { siteContent } from "@/data/content";
+import { COOKIE_SETTINGS_EVENT } from "@/lib/consent";
 import {
-  COOKIE_SETTINGS_EVENT,
-  hasAcceptedCookies,
-  setCookieConsentAccepted,
-} from "@/lib/consent";
-import { initPosthog } from "@/lib/posthog";
+  acceptCookies,
+  declineCookies,
+  getConsentStatus,
+} from "@/lib/posthog";
 import { cn } from "@/lib/utils";
 
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (hasAcceptedCookies()) {
-      initPosthog();
-      return;
-    }
-
-    setVisible(true);
+    setVisible(getConsentStatus() === "pending");
   }, []);
 
   useEffect(() => {
@@ -30,8 +25,12 @@ export function CookieConsent() {
   }, []);
 
   function handleAccept() {
-    setCookieConsentAccepted();
-    initPosthog();
+    acceptCookies();
+    setVisible(false);
+  }
+
+  function handleDecline() {
+    declineCookies();
     setVisible(false);
   }
 
@@ -63,9 +62,14 @@ export function CookieConsent() {
             {siteContent.cookies.body}
           </p>
         </div>
-        <Button size="sm" className="shrink-0" onClick={handleAccept}>
-          {siteContent.cookies.acceptLabel}
-        </Button>
+        <div className="flex shrink-0 items-center gap-2">
+          <Button size="sm" variant="outline" onClick={handleDecline}>
+            {siteContent.cookies.declineLabel}
+          </Button>
+          <Button size="sm" onClick={handleAccept}>
+            {siteContent.cookies.acceptLabel}
+          </Button>
+        </div>
       </div>
     </div>
   );
