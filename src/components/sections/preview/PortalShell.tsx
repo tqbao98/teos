@@ -30,7 +30,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
 
   return (
     <div
-      className="font-cal flex aspect-[3/5] overflow-hidden rounded-xl bg-[#f6f8f6] shadow-[0_40px_120px_-24px_rgba(0,0,0,0.85)] ring-1 ring-black/10 sm:aspect-[16/10]"
+      className="font-cal flex aspect-[3/5] overflow-hidden rounded-xl bg-[#f6f8f6] shadow-[0_24px_64px_-20px_rgba(0,0,0,0.55)] ring-1 ring-black/10 sm:aspect-[16/10] sm:shadow-[0_40px_120px_-24px_rgba(0,0,0,0.85)]"
       aria-hidden="true"
     >
       <aside className="hidden w-[14rem] shrink-0 flex-col overflow-hidden border-r border-[#e2e8e4] bg-[#f6f8f6] md:flex">

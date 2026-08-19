@@ -5,7 +5,7 @@ export function Compliance() {
   const { compliance } = siteContent;
 
   return (
-    <section id="compliance" className="bg-black py-8 sm:py-10">
+    <div className="bg-black py-8 sm:py-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <FadeIn>
           <h2 className="text-center text-sm font-semibold text-white/80">
@@ -23,6 +23,6 @@ export function Compliance() {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

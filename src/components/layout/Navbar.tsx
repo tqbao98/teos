@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 
 import { Logo } from "@/components/shared/Logo";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 import { siteContent } from "@/data/content";
 import { cn, scrollToSection } from "@/lib/utils";
 
@@ -11,11 +12,20 @@ export function Navbar() {
   const [pastHero, setPastHero] = useState(false);
   const [inContact, setInContact] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const scrolledRef = useRef(false);
+  const isMobile = useIsMobile();
 
   const showCta = pastHero && !inContact;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => {
+      const next = window.scrollY > 12;
+      if (next !== scrolledRef.current) {
+        scrolledRef.current = next;
+        setScrolled(next);
+      }
+    };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -59,9 +69,11 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+        "fixed inset-x-0 top-0 z-50 transition-[background-color,opacity] duration-300",
         scrolled
-          ? "bg-background/80 backdrop-blur-xl"
+          ? isMobile
+            ? "bg-background/95"
+            : "bg-background/80 backdrop-blur-xl"
           : "bg-transparent",
       )}
     >
@@ -126,7 +138,7 @@ export function Navbar() {
       </div>
 
       {mobileOpen ? (
-        <div className="border-t border-border/60 bg-background/95 backdrop-blur-xl md:hidden">
+        <div className="border-t border-border/60 bg-background md:hidden">
           <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4 sm:px-6">
             {siteContent.nav.map((item) => (
               <button

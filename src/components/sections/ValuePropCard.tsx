@@ -47,7 +47,7 @@ function ConnectMockup() {
 
   return (
     <MockupFrame>
-      <div className="overflow-hidden rounded-xl border border-white/80 bg-white/90 shadow-sm backdrop-blur-sm">
+      <div className="overflow-hidden rounded-xl border border-white/80 bg-white/90 shadow-sm">
         <div className="flex items-center justify-between gap-2 border-b border-border/60 px-4 py-2.5">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
             Protocol gateway
@@ -107,7 +107,7 @@ function UnderstandMockup() {
 
   return (
     <MockupFrame>
-      <div className="overflow-hidden rounded-xl border border-white/80 bg-white/90 shadow-sm backdrop-blur-sm">
+      <div className="overflow-hidden rounded-xl border border-white/80 bg-white/90 shadow-sm">
         <div className="border-b border-border/60 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
           AI-ready asset model
         </div>
@@ -194,7 +194,7 @@ function ManageMockup() {
 
   return (
     <MockupFrame>
-      <div className="overflow-hidden rounded-xl border border-white/80 bg-white/90 shadow-sm backdrop-blur-sm">
+      <div className="overflow-hidden rounded-xl border border-white/80 bg-white/90 shadow-sm">
         <div className="flex items-center justify-between gap-2 border-b border-border/60 px-4 py-2.5">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
             Control center

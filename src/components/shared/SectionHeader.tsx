@@ -1,4 +1,6 @@
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
+
+import { useReducedMotion } from "@/hooks/useMediaQuery";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -12,6 +14,12 @@ interface FadeInProps {
 }
 
 export function FadeIn({ children, className, delay = 0 }: FadeInProps) {
+  const reducedMotion = useReducedMotion();
+
+  if (reducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       className={className}

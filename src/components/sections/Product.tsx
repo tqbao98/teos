@@ -8,10 +8,7 @@ export function Product() {
   const [first, second, ...rest] = product.valuePropositions;
 
   return (
-    <section
-      id="product"
-      className="bg-gradient-to-b from-background to-white pt-24 pb-12 sm:pt-28 sm:pb-14"
-    >
+    <div className="bg-gradient-to-b from-background to-white pt-24 pb-12 sm:pt-28 sm:pb-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <ProductHeader />
 
@@ -50,6 +47,6 @@ export function Product() {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

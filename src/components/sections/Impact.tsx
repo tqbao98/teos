@@ -5,7 +5,7 @@ export function Impact() {
   const { impact } = siteContent;
 
   return (
-    <section id="impact" className="bg-gradient-to-b from-white to-background pt-12 pb-24 sm:pt-14 sm:pb-28">
+    <div className="bg-gradient-to-b from-white to-background pt-12 pb-24 sm:pt-14 sm:pb-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <FadeIn>
           <h2 className="text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
@@ -35,14 +35,21 @@ export function Impact() {
           {impact.results.map((result, index) => (
             <FadeIn key={result.company} delay={0.1 + index * 0.08}>
               <div className="relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-xl bg-[var(--charcoal-brown)] p-6">
-                <img
-                  src={result.image}
-                  alt=""
-                  aria-hidden="true"
-                  loading="lazy"
-                  decoding="async"
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcSet={`${result.image.replace(".jpg", "")}-800.webp 800w, ${result.image.replace(".jpg", "")}-1200.webp 1200w`}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  <img
+                    src={result.image}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </picture>
                 <div
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[var(--charcoal-brown)]/90 via-transparent to-[var(--charcoal-brown)]/90"
@@ -80,6 +87,6 @@ export function Impact() {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -2,20 +2,32 @@ import { useEffect, useRef } from "react";
 import createGlobe, { type COBEOptions } from "cobe";
 import { useMotionValue, useSpring } from "motion/react";
 
+import { useReducedMotion } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 
 const MOVEMENT_DAMPING = 1400;
 
-const GLOBE_CONFIG: COBEOptions = {
-  width: 800,
-  height: 800,
+function getGlobeQuality() {
+  const isMobile = window.innerWidth < 640;
+  const isTablet = window.innerWidth < 1024;
+  const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : isTablet ? 1.5 : 2);
+
+  return {
+    devicePixelRatio: dpr,
+    mapSamples: isMobile ? 6000 : isTablet ? 10000 : 12000,
+    sizeMultiplier: isMobile ? 1.5 : 2,
+  };
+}
+
+const BASE_GLOBE_CONFIG: Omit<
+  COBEOptions,
+  "width" | "height" | "devicePixelRatio" | "mapSamples"
+> = {
   onRender: () => {},
-  devicePixelRatio: 2,
   phi: 0,
   theta: 0.3,
   dark: 0,
   diffuse: 0.4,
-  mapSamples: 16000,
   mapBrightness: 1.2,
   baseColor: [1, 1, 1],
   markerColor: [155 / 255, 41 / 255, 21 / 255],
@@ -36,16 +48,17 @@ const GLOBE_CONFIG: COBEOptions = {
 
 export function Globe({
   className,
-  config = GLOBE_CONFIG,
+  config,
 }: {
   className?: string;
-  config?: COBEOptions;
+  config?: Partial<COBEOptions>;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const phiRef = useRef(0);
   const widthRef = useRef(0);
   const pointerInteracting = useRef<number | null>(null);
-  const pointerInteractionMovement = useRef(0);
+  const reducedMotion = useReducedMotion();
 
   const r = useMotionValue(0);
   const rs = useSpring(r, {
@@ -64,45 +77,136 @@ export function Globe({
   const updateMovement = (clientX: number) => {
     if (pointerInteracting.current !== null) {
       const delta = clientX - pointerInteracting.current;
-      pointerInteractionMovement.current = delta;
+      pointerInteracting.current = clientX;
       r.set(r.get() + delta / MOVEMENT_DAMPING);
     }
   };
 
   useEffect(() => {
-    const onResize = () => {
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    if (!canvas || !container || reducedMotion) return;
+
+    let globe: ReturnType<typeof createGlobe> | null = null;
+    let initScheduled = false;
+    let isIntersecting = false;
+    let resizeObserver: ResizeObserver | null = null;
+
+    const syncSize = () => {
       if (canvasRef.current) {
         widthRef.current = canvasRef.current.offsetWidth;
       }
     };
 
-    window.addEventListener("resize", onResize);
-    onResize();
+    const destroyGlobe = () => {
+      if (globe) {
+        globe.destroy();
+        globe = null;
+      }
+      if (canvasRef.current) {
+        canvasRef.current.style.opacity = "0";
+      }
+    };
 
-    const globe = createGlobe(canvasRef.current!, {
-      ...config,
-      width: widthRef.current * 2,
-      height: widthRef.current * 2,
-      onRender: (state) => {
-        if (!pointerInteracting.current) phiRef.current += 0.005;
-        state.phi = phiRef.current + rs.get();
-        state.width = widthRef.current * 2;
-        state.height = widthRef.current * 2;
+    const createGlobeInstance = () => {
+      if (!canvasRef.current || globe || !isIntersecting || document.hidden) {
+        return;
+      }
+
+      syncSize();
+      const quality = getGlobeQuality();
+      const size = widthRef.current * quality.sizeMultiplier;
+
+      globe = createGlobe(canvasRef.current, {
+        ...BASE_GLOBE_CONFIG,
+        ...config,
+        devicePixelRatio: quality.devicePixelRatio,
+        mapSamples: quality.mapSamples,
+        width: size,
+        height: size,
+        onRender: (state) => {
+          if (!pointerInteracting.current) phiRef.current += 0.005;
+          state.phi = phiRef.current + rs.get();
+          state.width = widthRef.current * quality.sizeMultiplier;
+          state.height = widthRef.current * quality.sizeMultiplier;
+        },
+      });
+
+      if (canvasRef.current) {
+        canvasRef.current.style.opacity = "1";
+      }
+    };
+
+    const ensureGlobe = () => {
+      if (globe || initScheduled || !isIntersecting || document.hidden) return;
+      initScheduled = true;
+
+      const start = () => {
+        initScheduled = false;
+        createGlobeInstance();
+      };
+
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(start, { timeout: 1200 });
+      } else {
+        globalThis.setTimeout(start, 120);
+      }
+    };
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        destroyGlobe();
+        return;
+      }
+
+      if (isIntersecting) {
+        ensureGlobe();
+      }
+    };
+
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        isIntersecting = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          ensureGlobe();
+        } else {
+          destroyGlobe();
+        }
       },
+      { threshold: 0.05, rootMargin: "120px 0px" },
+    );
+
+    resizeObserver = new ResizeObserver(() => {
+      syncSize();
     });
 
-    setTimeout(() => {
-      if (canvasRef.current) canvasRef.current.style.opacity = "1";
-    }, 0);
+    intersectionObserver.observe(container);
+    resizeObserver.observe(container);
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {
-      globe.destroy();
-      window.removeEventListener("resize", onResize);
+      intersectionObserver.disconnect();
+      resizeObserver?.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      destroyGlobe();
     };
-  }, [rs, config]);
+  }, [config, reducedMotion, rs]);
+
+  if (reducedMotion) {
+    return (
+      <div
+        ref={containerRef}
+        className={cn("mx-auto aspect-square w-full max-w-[600px]", className)}
+        aria-hidden="true"
+      />
+    );
+  }
 
   return (
-    <div className={cn("mx-auto aspect-square w-full max-w-[600px]", className)}>
+    <div
+      ref={containerRef}
+      className={cn("mx-auto aspect-square w-full max-w-[600px]", className)}
+    >
       <canvas
         className="size-full opacity-0 transition-opacity duration-500 [contain:layout_paint_size]"
         ref={canvasRef}
@@ -112,10 +216,14 @@ export function Globe({
         }}
         onPointerUp={() => updatePointerInteraction(null)}
         onPointerOut={() => updatePointerInteraction(null)}
-        onMouseMove={(e) => updateMovement(e.clientX)}
-        onTouchMove={(e) =>
-          e.touches[0] && updateMovement(e.touches[0].clientX)
-        }
+        onPointerMove={(e) => {
+          if (pointerInteracting.current !== null) updateMovement(e.clientX);
+        }}
+        onTouchMove={(e) => {
+          if (e.touches[0] && pointerInteracting.current !== null) {
+            updateMovement(e.touches[0].clientX);
+          }
+        }}
       />
     </div>
   );

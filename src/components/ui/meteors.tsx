@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
+import { useIsMobile, useReducedMotion } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 
 interface MeteorsProps {
@@ -10,6 +11,32 @@ interface MeteorsProps {
   maxDuration?: number;
   angle?: number;
   className?: string;
+  paused?: boolean;
+}
+
+function buildMeteorStyles({
+  number,
+  minDelay,
+  maxDelay,
+  minDuration,
+  maxDuration,
+  angle,
+  viewportWidth,
+}: Required<
+  Pick<
+    MeteorsProps,
+    "number" | "minDelay" | "maxDelay" | "minDuration" | "maxDuration" | "angle"
+  >
+> & { viewportWidth: number }) {
+  return Array.from({ length: number }, () => ({
+    "--angle": `${-angle}deg`,
+    top: "-5%",
+    left: `calc(0% + ${Math.floor(Math.random() * viewportWidth)}px)`,
+    animationDelay: `${Math.random() * (maxDelay - minDelay) + minDelay}s`,
+    animationDuration: `${Math.floor(
+      Math.random() * (maxDuration - minDuration) + minDuration,
+    )}s`,
+  }));
 }
 
 export function Meteors({
@@ -20,23 +47,37 @@ export function Meteors({
   maxDuration = 10,
   angle = 215,
   className,
+  paused = false,
 }: MeteorsProps) {
-  const [meteorStyles, setMeteorStyles] = useState<Array<React.CSSProperties>>(
-    [],
+  const isMobile = useIsMobile();
+  const reducedMotion = useReducedMotion();
+  const effectiveNumber = isMobile ? Math.min(number, 10) : number;
+  const viewportWidth =
+    typeof window !== "undefined" ? window.innerWidth : 1280;
+
+  const meteorStyles = useMemo(
+    () =>
+      buildMeteorStyles({
+        number: effectiveNumber,
+        minDelay,
+        maxDelay,
+        minDuration,
+        maxDuration,
+        angle,
+        viewportWidth,
+      }),
+    [
+      effectiveNumber,
+      minDelay,
+      maxDelay,
+      minDuration,
+      maxDuration,
+      angle,
+      viewportWidth,
+    ],
   );
 
-  useEffect(() => {
-    const styles = [...new Array(number)].map(() => ({
-      "--angle": `${-angle}deg`,
-      top: "-5%",
-      left: `calc(0% + ${Math.floor(Math.random() * window.innerWidth)}px)`,
-      animationDelay: `${Math.random() * (maxDelay - minDelay) + minDelay}s`,
-      animationDuration: `${Math.floor(
-        Math.random() * (maxDuration - minDuration) + minDuration,
-      )}s`,
-    }));
-    setMeteorStyles(styles);
-  }, [number, minDelay, maxDelay, minDuration, maxDuration, angle]);
+  if (reducedMotion) return null;
 
   return (
     <>
@@ -46,6 +87,7 @@ export function Meteors({
           style={style}
           className={cn(
             "animate-meteor pointer-events-none absolute size-0.5 rotate-(--angle) rounded-full bg-foreground/50 shadow-[0_0_0_1px_#ffffff10]",
+            paused && "animation-paused",
             className,
           )}
         >
