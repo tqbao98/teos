@@ -10,12 +10,13 @@ const MOVEMENT_DAMPING = 1400;
 function getGlobeQuality() {
   const isMobile = window.innerWidth < 640;
   const isTablet = window.innerWidth < 1024;
-  const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : isTablet ? 1.5 : 2);
 
   return {
-    devicePixelRatio: dpr,
+    // cobe reads width/height as the drawing buffer resolution, which phenomenon
+    // sizes as clientWidth * devicePixelRatio. Both must derive from this value
+    // or the sphere is scaled and centered wrong.
+    devicePixelRatio: Math.min(window.devicePixelRatio || 1, isTablet ? 1.5 : 2),
     mapSamples: isMobile ? 6000 : isTablet ? 10000 : 12000,
-    sizeMultiplier: isMobile ? 1.5 : 2,
   };
 }
 
@@ -94,7 +95,7 @@ export function Globe({
 
     const syncSize = () => {
       if (canvasRef.current) {
-        widthRef.current = canvasRef.current.offsetWidth;
+        widthRef.current = canvasRef.current.clientWidth;
       }
     };
 
@@ -115,20 +116,21 @@ export function Globe({
 
       syncSize();
       const quality = getGlobeQuality();
-      const size = widthRef.current * quality.sizeMultiplier;
+      // Matches the truncation the canvas applies to its width/height attributes.
+      const bufferSize = () => Math.floor(widthRef.current * quality.devicePixelRatio);
 
       globe = createGlobe(canvasRef.current, {
         ...BASE_GLOBE_CONFIG,
         ...config,
         devicePixelRatio: quality.devicePixelRatio,
         mapSamples: quality.mapSamples,
-        width: size,
-        height: size,
+        width: bufferSize(),
+        height: bufferSize(),
         onRender: (state) => {
           if (!pointerInteracting.current) phiRef.current += 0.005;
           state.phi = phiRef.current + rs.get();
-          state.width = widthRef.current * quality.sizeMultiplier;
-          state.height = widthRef.current * quality.sizeMultiplier;
+          state.width = bufferSize();
+          state.height = bufferSize();
         },
       });
 
