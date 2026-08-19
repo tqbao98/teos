@@ -18,6 +18,13 @@ export const siteContent = {
       "On-premise AI platform for industrial operations — from wire to intelligence, on your infrastructure.",
     primaryCta: "Book a demo",
   },
+  statement: {
+    lines: [
+      { prefix: "Deploy AI in ", emphasis: "hours" },
+      { prefix: "Connect data sources in ", emphasis: "minutes" },
+      { prefix: "Understand your plants ", emphasis: "immediately" },
+    ],
+  },
   preview: {
     siteName: "North Plant",
     siteStatus: "On-prem",

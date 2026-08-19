@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { DeferredSection } from "@/components/shared/DeferredSection";
 import { Hero } from "@/components/sections/Hero";
+import { Statement } from "@/components/sections/Statement";
 
 const Preview = lazy(() =>
   import("@/components/sections/Preview").then((module) => ({
@@ -49,6 +50,8 @@ function App() {
       <Navbar />
       <main>
         <Hero />
+
+        <Statement />
 
         <DeferredSection
           id="preview"
