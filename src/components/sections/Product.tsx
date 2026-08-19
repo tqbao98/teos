@@ -12,7 +12,7 @@ export function Product() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <ProductHeader />
 
-        <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="mt-14 grid auto-rows-fr grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6">
           {[first, second].map((prop, i) => (
             <FadeIn
               key={prop.id}

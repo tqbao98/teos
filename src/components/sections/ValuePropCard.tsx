@@ -442,8 +442,8 @@ export function ValuePropCard({
     <article className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
       <div
         className={cn(
-          "w-full shrink-0 overflow-hidden",
-          size === "featured" ? "aspect-[16/10]" : "aspect-[4/3]",
+          "flex w-full flex-1 overflow-hidden",
+          size === "featured" ? "min-h-[356px]" : "min-h-[300px]",
           toneStyles[tone],
         )}
       >
@@ -451,7 +451,7 @@ export function ValuePropCard({
           <Mockup />
         </CardSizeContext.Provider>
       </div>
-      <div className="flex flex-1 flex-col px-6 pb-6 pt-5">
+      <div className="flex shrink-0 flex-col px-6 pb-6 pt-5">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
           {eyebrow}
         </p>
