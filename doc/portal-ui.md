@@ -221,6 +221,10 @@ The `#preview` mock is the current Home + shell, not a generic LLM console. Gene
 - Top bar: `Windpark Fryslân` · Live
 - Home: site overview, four KPI tiles including deployed models, stacked recommendations with Accept / Investigate, inline composer (on-site model), workflows list with overflow, clipped activity feed
 
+**Mobile (below `md`)**
+
+The live mock is replaced by a static screenshot of the main canvas — top bar, Site overview, KPI row, recommendations, workflows, activity, composer — with the sidebar cropped out (`public/preview/portal-home-1600.webp`). Dropping the sidebar keeps the desktop layout intact at a narrower frame (1120×800 captured at 2x, desktop breakpoints still active), so type stays readable on a phone. Recapture whenever the shell or Home changes.
+
 **Not shown in the mock (still specified above)**
 
 - Agents, Assets, Workflows, Models, and Connect canvases
