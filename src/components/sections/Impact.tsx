@@ -35,7 +35,7 @@ export function Impact() {
           {impact.results.map((result, index) => (
             <FadeIn key={result.company} delay={0.1 + index * 0.08}>
               <div className="relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-xl bg-[var(--charcoal-brown)] p-6">
-                <picture>
+                <picture className="pointer-events-none absolute inset-0">
                   <source
                     type="image/webp"
                     srcSet={`${result.image.replace(".jpg", "")}-800.webp 800w, ${result.image.replace(".jpg", "")}-1200.webp 1200w`}
