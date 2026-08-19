@@ -51,7 +51,7 @@ export function Hero() {
           <Button
             size="sm"
             className="rounded-md bg-[#111] text-white hover:bg-black hover:text-white"
-            onClick={() => scrollToSection("contact")}
+            onClick={() => scrollToSection("statement")}
           >
             {hero.primaryCta}
             <ArrowRight />

@@ -16,7 +16,7 @@ export const siteContent = {
     headline: "Intelligence for industrial sites",
     subheadline:
       "On-premise AI platform for industrial operations — from wire to intelligence, on your infrastructure.",
-    primaryCta: "Book a demo",
+    primaryCta: "Explore",
   },
   statement: {
     lines: [
