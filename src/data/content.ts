@@ -6,11 +6,6 @@ export const siteContent = {
       "On-premise-first AI agents for industrial operations — from wire to intelligence, on your infrastructure.",
     email: "hello@teos.ai",
   },
-  nav: [
-    { label: "Product", href: "product" },
-    { label: "Impact", href: "impact" },
-    { label: "Contact", href: "contact" },
-  ],
   hero: {
     eyebrow: "Flagship AI/ML platform running on your premise",
     headline: "Intelligence for industrial sites",
