@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Building2,
@@ -23,7 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { siteContent } from "@/data/content";
-import posthog, { posthogEnabled } from "@/lib/posthog";
+import { captureEvent, identifyUser } from "@/lib/posthog";
 import { cn } from "@/lib/utils";
 
 const contactSchema = z.object({
@@ -62,6 +62,7 @@ function FieldWithIcon({
 
 export function ContactForm() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
+  const formStartedRef = useRef(false);
   const formspreeId = import.meta.env.VITE_FORMSPREE_ID;
 
   const form = useForm<ContactFormValues>({
@@ -73,6 +74,12 @@ export function ContactForm() {
       note: "",
     },
   });
+
+  const trackFormStarted = () => {
+    if (formStartedRef.current) return;
+    formStartedRef.current = true;
+    captureEvent("demo_request_form_started");
+  };
 
   const onSubmit = async (values: ContactFormValues) => {
     if (!formspreeId) {
@@ -103,16 +110,19 @@ export function ContactForm() {
         throw new Error("Form submission failed");
       }
 
-      if (posthogEnabled) {
-        posthog.capture("demo_request_submitted");
-      }
+      captureEvent("demo_request_submitted", {
+        has_note: Boolean(values.note?.trim()),
+      });
+      identifyUser(values.email, {
+        email: values.email,
+        name: values.name,
+        company: values.company,
+      });
       setSubmitState("success");
       form.reset();
     } catch (error) {
       console.error(error);
-      if (posthogEnabled) {
-        posthog.capture("demo_request_submission_failed");
-      }
+      captureEvent("demo_request_submission_failed");
       setSubmitState("error");
     }
   };
@@ -163,6 +173,7 @@ export function ContactForm() {
                         autoComplete="name"
                         className="bg-white pl-9"
                         {...field}
+                        onFocus={() => trackFormStarted()}
                       />
                     </FormControl>
                   </FieldWithIcon>
@@ -185,6 +196,7 @@ export function ContactForm() {
                         autoComplete="email"
                         className="bg-white pl-9"
                         {...field}
+                        onFocus={() => trackFormStarted()}
                       />
                     </FormControl>
                   </FieldWithIcon>
@@ -206,6 +218,7 @@ export function ContactForm() {
                         autoComplete="organization"
                         className="bg-white pl-9"
                         {...field}
+                        onFocus={() => trackFormStarted()}
                       />
                     </FormControl>
                   </FieldWithIcon>
@@ -231,6 +244,7 @@ export function ContactForm() {
                         placeholder="Tell us about your plant, protocols, or use cases..."
                         className="bg-white pl-9"
                         {...field}
+                        onFocus={() => trackFormStarted()}
                       />
                     </FormControl>
                   </FieldWithIcon>
@@ -253,10 +267,9 @@ export function ContactForm() {
               size="sm"
               className="rounded-md bg-muted text-foreground hover:bg-muted/70"
               onClick={() => {
-                if (posthogEnabled) {
-                  posthog.capture("demo_request_discarded");
-                }
+                captureEvent("demo_request_discarded");
                 form.reset();
+                formStartedRef.current = false;
                 setSubmitState("idle");
               }}
               disabled={submitState === "loading"}

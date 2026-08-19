@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { Logo } from "@/components/shared/Logo";
 import { Button } from "@/components/ui/button";
-import posthog, { posthogEnabled } from "@/lib/posthog";
+import { captureEvent } from "@/lib/posthog";
 import { cn, scrollToSection } from "@/lib/utils";
 
 export function Navbar() {
@@ -77,11 +77,7 @@ export function Navbar() {
             size="sm"
             className="rounded-md"
             onClick={() => {
-              if (posthogEnabled) {
-                posthog.capture("demo_request_started", {
-                  source: "navbar",
-                });
-              }
+              captureEvent("demo_request_started", { source: "navbar" });
               scrollToSection("contact");
             }}
             tabIndex={showCta ? undefined : -1}

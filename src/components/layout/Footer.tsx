@@ -1,4 +1,5 @@
 import { siteContent } from "@/data/content";
+import { captureEvent } from "@/lib/posthog";
 
 export function Footer() {
   return (
@@ -18,6 +19,7 @@ export function Footer() {
             <a
               href={`mailto:${siteContent.company.email}`}
               className="mt-1 text-xs font-medium text-primary hover:underline"
+              onClick={() => captureEvent("contact_email_clicked")}
             >
               {siteContent.company.email}
             </a>

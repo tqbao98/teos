@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Globe } from "@/components/ui/globe";
 import { Meteors } from "@/components/ui/meteors";
 import { siteContent } from "@/data/content";
-import posthog, { posthogEnabled } from "@/lib/posthog";
+import { captureEvent } from "@/lib/posthog";
 import { scrollToSection } from "@/lib/utils";
 
 export function Hero() {
@@ -53,9 +53,7 @@ export function Hero() {
             size="sm"
             className="rounded-md bg-[#111] text-white hover:bg-black hover:text-white"
             onClick={() => {
-              if (posthogEnabled) {
-                posthog.capture("product_exploration_started");
-              }
+              captureEvent("product_exploration_started");
               scrollToSection("statement");
             }}
           >

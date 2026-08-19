@@ -26,4 +26,21 @@ if (!posthogKey || !posthogHost) {
 }
 
 export const posthogEnabled = Boolean(posthogKey && posthogHost);
+
+export function captureEvent(
+  event: string,
+  properties?: Record<string, unknown>,
+): void {
+  if (!posthogEnabled) return;
+  posthog.capture(event, properties);
+}
+
+export function identifyUser(
+  distinctId: string,
+  properties: Record<string, unknown>,
+): void {
+  if (!posthogEnabled) return;
+  posthog.identify(distinctId, properties);
+}
+
 export default posthog;

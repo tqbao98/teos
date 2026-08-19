@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { DeferredSection } from "@/components/shared/DeferredSection";
+import { SectionViewTracker } from "@/hooks/useSectionViewed";
 import { Hero } from "@/components/sections/Hero";
 import { Statement } from "@/components/sections/Statement";
 
@@ -47,6 +48,7 @@ function SectionFallback({ label }: { label: string }) {
 function App() {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SectionViewTracker />
       <Navbar />
       <main>
         <Hero />
