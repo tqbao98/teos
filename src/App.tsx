@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 
+import { CookieConsent } from "@/components/CookieConsent";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { DeferredSection } from "@/components/shared/DeferredSection";
@@ -106,6 +107,7 @@ function App() {
         </DeferredSection>
       </main>
       <Footer />
+      <CookieConsent />
     </div>
   );
 }

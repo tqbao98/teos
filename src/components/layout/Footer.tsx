@@ -1,4 +1,5 @@
 import { siteContent } from "@/data/content";
+import { openCookieSettings } from "@/lib/consent";
 import { captureEvent } from "@/lib/posthog";
 
 export function Footer() {
@@ -25,9 +26,18 @@ export function Footer() {
             </a>
           </div>
         </div>
-        <p className="text-xs text-muted-foreground md:text-right">
-          {siteContent.footer.copyright}
-        </p>
+        <div className="flex flex-col gap-1 md:items-end">
+          <button
+            type="button"
+            className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+            onClick={openCookieSettings}
+          >
+            {siteContent.cookies.settingsLabel}
+          </button>
+          <p className="text-xs text-muted-foreground md:text-right">
+            {siteContent.footer.copyright}
+          </p>
+        </div>
       </div>
     </footer>
   );

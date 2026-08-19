@@ -4,7 +4,7 @@ export const siteContent = {
     tagline: "AI at the corner of the world",
     oneLiner:
       "On-premise-first AI agents for industrial operations — from wire to intelligence, on your infrastructure.",
-    email: "hello@teos.ai",
+    email: "hello@te-os.com",
   },
   hero: {
     eyebrow: "Flagship AI/ML platform running on your premise",
@@ -337,7 +337,7 @@ export const siteContent = {
         eyebrow: "Autonomy",
         title: "Act",
         description:
-          "Deploy AI agents for predictive maintenance, anomaly detection, quality optimization, and autonomous process control — locally with sub-10ms response.",
+          "Deploy AI agents for predictive maintenance, anomaly detection, quality optimization, and autonomous process control locally with sub-10ms response.",
         visual: "act" as const,
         tone: "warm" as const,
       },
@@ -346,7 +346,7 @@ export const siteContent = {
         eyebrow: "Connectivity",
         title: "Connect",
         description:
-          "Ingest live data from PLCs, sensors, and controllers via any industrial protocol — bring every signal on your plant floor into one real-time stream.",
+          "Ingest live data from PLCs, sensors, and controllers via any industrial protocol.",
         visual: "connect" as const,
         tone: "warm" as const,
       },
@@ -355,7 +355,7 @@ export const siteContent = {
         eyebrow: "Context",
         title: "Understand",
         description:
-          "Automatically build a real-time, AI-ready model of your plant, line, or facility — turning raw signals into structured context.",
+          "Automatically build a real-time, AI-ready model of your plant, line, or facility.",
         visual: "understand" as const,
         tone: "cool" as const,
       },
@@ -364,7 +364,7 @@ export const siteContent = {
         eyebrow: "Operations",
         title: "Manage",
         description:
-          "Configure connections, deploy models and agents, and monitor performance from one operator-friendly interface — no data scientists or cloud engineers required.",
+          "Configure connections, deploy models and agents, and monitor performance from one interface.",
         visual: "manage" as const,
         tone: "warm" as const,
       },
@@ -401,7 +401,7 @@ export const siteContent = {
         value: "6 days",
         caption: "from installation to live anomaly alert",
         quote:
-          "We had alerts on a line we thought was too old to instrument — and nothing left the plant.",
+          "We had alerts on a line we thought was too old to instrument, and nothing left the plant.",
         attribution: "M. van der Berg, Head of Operations",
         company: "Nordvale Dairy Group",
         industry: "Process manufacturing",
@@ -411,7 +411,7 @@ export const siteContent = {
         value: "17%",
         caption: "fewer unplanned line stops",
         quote:
-          "Our engineers ask the copilot why a cell flagged — and get an answer tied to the actual tag, not a dashboard hunt.",
+          "Our engineers ask the copilot why a cell flagged, and get an answer tied to the actual tag, not a dashboard hunt.",
         attribution: "S. Keller, Plant Engineering Lead",
         company: "Kessler Präzision GmbH",
         industry: "Automotive supply chain",
@@ -422,7 +422,7 @@ export const siteContent = {
         caption: "lower O&M cost per MWh",
         quote:
           "Predictive work happens before the heavy-lift window closes. The grid data never leaves Friesland.",
-        attribution: "A. Reyes, Site Engineer",
+        attribution: "A. Reyes, Plant Engineer",
         company: "Fryslân Wind Collective",
         industry: "Energy & utilities",
         image: "/impact/story-wind.jpg",
@@ -446,6 +446,12 @@ export const siteContent = {
       "Thank you — we've received your request and will be in touch shortly.",
     errorMessage:
       "Something went wrong. Please try again or email us directly.",
+  },
+  cookies: {
+    title: "Cookies",
+    body: "We use analytics cookies (PostHog) to understand how the site is used.",
+    acceptLabel: "Accept",
+    settingsLabel: "Cookies",
   },
   footer: {
     copyright: `© ${new Date().getFullYear()} Teos. All rights reserved.`,
