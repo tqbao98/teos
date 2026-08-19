@@ -1,7 +1,8 @@
-import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
-import { FadeIn } from "@/components/shared/SectionHeader";
 import { Button } from "@/components/ui/button";
+import { Globe } from "@/components/ui/globe";
+import { Meteors } from "@/components/ui/meteors";
 import { siteContent } from "@/data/content";
 import { scrollToSection } from "@/lib/utils";
 
@@ -9,74 +10,37 @@ export function Hero() {
   const { hero } = siteContent;
 
   return (
-    <section className="relative min-h-[92vh] overflow-hidden pt-16">
+    <section id="hero" className="relative h-svh overflow-hidden bg-white">
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/hero-background.png')" }}
+        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
         aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/75 to-background"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(246,174,45,0.12),transparent_55%)]"
-        aria-hidden="true"
-      />
+      >
+        <Meteors number={30} />
+      </div>
 
-      <div className="relative mx-auto flex min-h-[calc(92vh-4rem)] max-w-5xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6 lg:px-8">
-        <FadeIn>
-          <p className="mb-4 inline-flex items-center rounded-full border border-border/80 bg-background/70 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground backdrop-blur-sm">
-            Sovereign industrial AI
-          </p>
-        </FadeIn>
+      <div className="absolute inset-x-0 top-[42%] z-20 flex -translate-y-1/2 flex-col items-center px-4 text-center sm:top-[38%] sm:px-6 lg:px-8">
+        <p className="text-sm font-medium text-muted-foreground sm:text-base">
+          {hero.eyebrow}
+        </p>
 
-        <FadeIn delay={0.08}>
-          <h1 className="max-w-4xl text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            {hero.headline}
-          </h1>
-        </FadeIn>
+        <h1 className="mt-3 max-w-3xl font-[family-name:var(--font-cal)] text-[clamp(2.5rem,6.5vw,5.5rem)] font-semibold leading-[1.1] tracking-tight text-foreground sm:mt-4 lg:max-w-none lg:whitespace-nowrap">
+          Intelligence for <em className="italic">industrial plants</em>
+        </h1>
 
-        <FadeIn delay={0.16}>
-          <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg lg:text-xl">
-            {hero.subheadline}
-          </p>
-        </FadeIn>
+        <div className="mt-5 sm:mt-7">
+          <Button
+            size="sm"
+            className="rounded-md bg-[#111] text-white hover:bg-black hover:text-white"
+            onClick={() => scrollToSection("contact")}
+          >
+            {hero.primaryCta}
+            <ArrowRight />
+          </Button>
+        </div>
+      </div>
 
-        <FadeIn delay={0.24}>
-          <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
-            <Button size="lg" onClick={() => scrollToSection("contact")}>
-              {hero.primaryCta}
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => scrollToSection("product")}
-            >
-              {hero.secondaryCta}
-            </Button>
-          </div>
-        </FadeIn>
-
-        <motion.div
-          className="mt-16 grid w-full max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.45, duration: 0.6 }}
-        >
-          {[
-            "On-premise by default",
-            "Multi-protocol connectivity",
-            "Operator-friendly deployment",
-          ].map((item) => (
-            <div
-              key={item}
-              className="rounded-2xl border border-border/70 bg-background/70 px-4 py-3 text-sm font-medium text-foreground backdrop-blur-sm"
-            >
-              {item}
-            </div>
-          ))}
-        </motion.div>
+      <div className="absolute inset-x-0 bottom-0 z-10 h-[58%] overflow-hidden sm:h-[62%]">
+        <Globe className="absolute -top-6 left-1/2 aspect-square w-[min(1400px,170%)] max-w-none -translate-x-1/2 sm:-top-8" />
       </div>
     </section>
   );

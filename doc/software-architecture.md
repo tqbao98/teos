@@ -606,7 +606,8 @@ Teos architecture delivers **one sovereign platform** on customer infrastructure
 
 **Next recommended documents:**
 
-- [ ] Management Portal IA and API OpenAPI spec
+- [x] Management Portal IA — [portal-ui.md](./portal-ui.md)
+- [ ] Portal API OpenAPI spec
 - [ ] Protocol adapter plugin SDK specification
 - [ ] `.teosmodel` bundle format and signing protocol
 - [ ] Operations Copilot safety and prompt specification

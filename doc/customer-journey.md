@@ -401,7 +401,7 @@ These items from the business plan will refine this journey once decided:
 
 ## Next Documents (Suggested)
 
-- **Management Portal IA** — screen map and navigation spec
+- **Management Portal IA** — [portal-ui.md](./portal-ui.md)
 - **Connect configuration reference** — per-protocol field definitions
 - **Model catalog schema** — model card metadata and bundle format
 - **Operations Copilot prompt & safety spec** — RBAC, audit, escalation

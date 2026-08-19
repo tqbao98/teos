@@ -8,13 +8,40 @@ import { cn, scrollToSection } from "@/lib/utils";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
+  const [inContact, setInContact] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const showCta = pastHero && !inContact;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const hero = document.getElementById("hero");
+    const contact = document.getElementById("contact");
+    if (!hero || !contact) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.target.id === "hero") {
+            setPastHero(!entry.isIntersecting);
+          } else if (entry.target.id === "contact") {
+            setInContact(entry.isIntersecting);
+          }
+        }
+      },
+      { threshold: 0 },
+    );
+
+    observer.observe(hero);
+    observer.observe(contact);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -34,7 +61,7 @@ export function Navbar() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-border/60 bg-background/80 shadow-sm backdrop-blur-xl"
+          ? "bg-background/80 backdrop-blur-xl"
           : "bg-transparent",
       )}
     >
@@ -49,14 +76,21 @@ export function Navbar() {
         </button>
 
         <nav
-          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex"
+          className={cn(
+            "absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 transition-opacity duration-300 md:flex",
+            scrolled
+              ? "pointer-events-none opacity-0"
+              : "opacity-100",
+          )}
           aria-label="Primary"
+          aria-hidden={scrolled}
         >
           {siteContent.nav.map((item) => (
             <button
               key={item.href}
               type="button"
               onClick={() => handleNavClick(item.href)}
+              tabIndex={scrolled ? -1 : undefined}
               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {item.label}
@@ -64,8 +98,21 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
-          <Button onClick={() => handleNavClick("contact")}>Contact us</Button>
+        <div
+          className={cn(
+            "hidden transition-opacity duration-300 md:block",
+            showCta ? "opacity-100" : "pointer-events-none opacity-0",
+          )}
+        >
+          <Button
+            size="sm"
+            className="rounded-md"
+            onClick={() => handleNavClick("contact")}
+            tabIndex={showCta ? undefined : -1}
+            aria-hidden={!showCta}
+          >
+            Book a demo
+          </Button>
         </div>
 
         <button
@@ -91,12 +138,15 @@ export function Navbar() {
                 {item.label}
               </button>
             ))}
-            <Button
-              className="mt-2 w-full"
-              onClick={() => handleNavClick("contact")}
-            >
-              Contact us
-            </Button>
+            {showCta ? (
+              <Button
+                size="sm"
+                className="mt-2 w-full rounded-md"
+                onClick={() => handleNavClick("contact")}
+              >
+                Book a demo
+              </Button>
+            ) : null}
           </nav>
         </div>
       ) : null}

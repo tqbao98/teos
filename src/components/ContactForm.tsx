@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import {
+  Building2,
+  Loader2,
+  Mail,
+  MessageSquare,
+  User,
+  type LucideIcon,
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -16,6 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { siteContent } from "@/data/content";
+import { cn } from "@/lib/utils";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Please enter your name"),
@@ -27,6 +35,29 @@ const contactSchema = z.object({
 type ContactFormValues = z.infer<typeof contactSchema>;
 
 type SubmitState = "idle" | "loading" | "success" | "error";
+
+function FieldWithIcon({
+  icon: Icon,
+  align = "center",
+  children,
+}: {
+  icon: LucideIcon;
+  align?: "center" | "start";
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="relative">
+      <Icon
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute left-3 size-3.5 text-muted-foreground",
+          align === "center" ? "top-1/2 -translate-y-1/2" : "top-2.5",
+        )}
+      />
+      {children}
+    </div>
+  );
+}
 
 export function ContactForm() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
@@ -81,12 +112,13 @@ export function ContactForm() {
 
   if (submitState === "success") {
     return (
-      <div className="rounded-3xl border border-border bg-card p-8 text-center shadow-sm">
-        <p className="text-lg font-medium text-foreground">
+      <div className="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
+        <p className="text-base font-medium text-foreground">
           {siteContent.contact.successMessage}
         </p>
         <Button
-          className="mt-6"
+          className="mt-5 rounded-md"
+          size="sm"
           variant="outline"
           onClick={() => setSubmitState("idle")}
         >
@@ -97,111 +129,146 @@ export function ContactForm() {
   }
 
   return (
-    <div className="rounded-3xl border border-border bg-card p-6 shadow-sm sm:p-8">
-      {!formspreeId ? (
-        <p className="mb-4 rounded-xl bg-secondary px-4 py-3 text-sm text-muted-foreground">
-          Formspree is not configured. Set{" "}
-          <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
-            VITE_FORMSPREE_ID
-          </code>{" "}
-          in your environment to enable submissions.
-        </p>
-      ) : null}
-
+    <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="space-y-4 p-5 sm:p-6">
+            {!formspreeId ? (
+              <p className="rounded-md bg-secondary px-3 py-2 text-sm text-muted-foreground">
+                Formspree is not configured. Set{" "}
+                <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
+                  VITE_FORMSPREE_ID
+                </code>{" "}
+                in your environment to enable submissions.
+              </p>
+            ) : null}
+
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Jane Smith" autoComplete="name" {...field} />
-                  </FormControl>
+                  <FieldWithIcon icon={User}>
+                    <FormControl>
+                      <Input
+                        placeholder="James Smith"
+                        autoComplete="name"
+                        className="bg-white pl-9"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FieldWithIcon>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="jane@company.com"
-                      autoComplete="email"
-                      {...field}
-                    />
-                  </FormControl>
+                  <FieldWithIcon icon={Mail}>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="james.smith@acme.com"
+                        autoComplete="email"
+                        className="bg-white pl-9"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FieldWithIcon>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="company"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Company</FormLabel>
+                  <FieldWithIcon icon={Building2}>
+                    <FormControl>
+                      <Input
+                        placeholder="Acme Manufacturing"
+                        autoComplete="organization"
+                        className="bg-white pl-9"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FieldWithIcon>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="note"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Note{" "}
+                    <span className="font-normal text-muted-foreground">
+                      (optional)
+                    </span>
+                  </FormLabel>
+                  <FieldWithIcon icon={MessageSquare} align="start">
+                    <FormControl>
+                      <Textarea
+                        placeholder="Tell us about your plant, protocols, or use cases..."
+                        className="bg-white pl-9"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FieldWithIcon>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {submitState === "error" ? (
+              <p className="text-sm font-medium text-destructive">
+                {siteContent.contact.errorMessage}
+              </p>
+            ) : null}
           </div>
 
-          <FormField
-            control={form.control}
-            name="company"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Company</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Acme Manufacturing"
-                    autoComplete="organization"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="note"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Note <span className="font-normal text-muted-foreground">(optional)</span>
-                </FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Tell us about your plant, protocols, or use cases..."
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {submitState === "error" ? (
-            <p className="text-sm font-medium text-destructive">
-              {siteContent.contact.errorMessage}
-            </p>
-          ) : null}
-
-          <Button
-            type="submit"
-            size="lg"
-            className="w-full sm:w-auto"
-            disabled={submitState === "loading"}
-          >
-            {submitState === "loading" ? (
-              <>
-                <Loader2 className="animate-spin" />
-                Sending...
-              </>
-            ) : (
-              siteContent.contact.submitLabel
-            )}
-          </Button>
+          <div className="flex items-center justify-end gap-2 border-t border-border bg-muted/40 px-5 py-3 sm:px-6">
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="rounded-md bg-muted text-foreground hover:bg-muted/70"
+              onClick={() => {
+                form.reset();
+                setSubmitState("idle");
+              }}
+              disabled={submitState === "loading"}
+            >
+              Discard
+            </Button>
+            <Button
+              type="submit"
+              size="sm"
+              className="rounded-md"
+              disabled={submitState === "loading"}
+            >
+              {submitState === "loading" ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                siteContent.contact.submitLabel
+              )}
+            </Button>
+          </div>
         </form>
       </Form>
     </div>
