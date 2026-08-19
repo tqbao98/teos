@@ -8,7 +8,6 @@ type CardSize = "featured" | "compact";
 interface ValuePropCardProps {
   title: string;
   description: string;
-  eyebrow: string;
   visual: VisualType;
   tone: ToneType;
   size?: CardSize;
@@ -187,7 +186,7 @@ function ActMockup() {
 
 function ManageMockup() {
   const agents = [
-    { name: "Predictive Maint.", health: 98, status: "healthy" as const },
+    { name: "Predictive Maintenance", health: 98, status: "healthy" as const },
     { name: "Quality Optimizer", health: 94, status: "healthy" as const },
     { name: "Energy Balancer", health: 71, status: "warn" as const },
   ];
@@ -431,7 +430,6 @@ const mockupMap: Record<VisualType, () => ReactElement> = {
 export function ValuePropCard({
   title,
   description,
-  eyebrow,
   visual,
   tone,
   size = "compact",
@@ -452,10 +450,7 @@ export function ValuePropCard({
         </CardSizeContext.Provider>
       </div>
       <div className="flex shrink-0 flex-col px-6 pb-6 pt-5">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
-          {eyebrow}
-        </p>
-        <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
+        <h3 className="text-lg font-semibold tracking-tight text-foreground">
           {title}
         </h3>
         <p

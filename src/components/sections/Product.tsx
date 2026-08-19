@@ -22,7 +22,6 @@ export function Product() {
               <ValuePropCard
                 title={prop.title}
                 description={prop.description}
-                eyebrow={prop.eyebrow}
                 visual={prop.visual}
                 tone={prop.tone}
                 size="featured"
@@ -38,7 +37,6 @@ export function Product() {
               <ValuePropCard
                 title={prop.title}
                 description={prop.description}
-                eyebrow={prop.eyebrow}
                 visual={prop.visual}
                 tone={prop.tone}
                 size="compact"

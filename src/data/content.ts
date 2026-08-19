@@ -5,6 +5,7 @@ export const siteContent = {
     oneLiner:
       "On-premise-first AI agents for industrial operations — from wire to intelligence, on your infrastructure.",
     email: "hello@te-os.com",
+    linkedin: "https://www.linkedin.com/company/teosai/",
   },
   hero: {
     eyebrow: "Flagship AI/ML platform running on your premise",
@@ -320,13 +321,12 @@ export const siteContent = {
     },
   },
   product: {
-    title: "Run AI locally",
-    titleLine2: "Nothing leaves your premises.",
+    title: "Run AI locally. Nothing leaves your premises.",
+    titleLine2: "No data training.",
     valuePropositions: [
       {
         id: "on-prem-ai",
-        eyebrow: "Sovereignty",
-        title: "On-prem AI",
+        title: "On-premise AI",
         description:
           "All inference, data processing, and management runs on your infrastructure. Zero operational data leaves the premises.",
         visual: "sovereign" as const,
@@ -334,8 +334,7 @@ export const siteContent = {
       },
       {
         id: "act",
-        eyebrow: "Autonomy",
-        title: "Act",
+        title: "Act on your operations",
         description:
           "Deploy AI agents for predictive maintenance, anomaly detection, quality optimization, and autonomous process control locally with sub-10ms response.",
         visual: "act" as const,
@@ -343,8 +342,7 @@ export const siteContent = {
       },
       {
         id: "connect",
-        eyebrow: "Connectivity",
-        title: "Connect",
+        title: "Connect existing data",
         description:
           "Ingest live data from PLCs, sensors, and controllers via any industrial protocol.",
         visual: "connect" as const,
@@ -352,8 +350,7 @@ export const siteContent = {
       },
       {
         id: "understand",
-        eyebrow: "Context",
-        title: "Understand",
+        title: "Understand assets",
         description:
           "Automatically build a real-time, AI-ready model of your plant, line, or facility.",
         visual: "understand" as const,
@@ -361,8 +358,7 @@ export const siteContent = {
       },
       {
         id: "manage",
-        eyebrow: "Operations",
-        title: "Manage",
+        title: "Manage in one place",
         description:
           "Configure connections, deploy models and agents, and monitor performance from one interface.",
         visual: "manage" as const,
