@@ -23,6 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { siteContent } from "@/data/content";
+import posthog, { posthogEnabled } from "@/lib/posthog";
 import { cn } from "@/lib/utils";
 
 const contactSchema = z.object({
@@ -102,10 +103,16 @@ export function ContactForm() {
         throw new Error("Form submission failed");
       }
 
+      if (posthogEnabled) {
+        posthog.capture("demo_request_submitted");
+      }
       setSubmitState("success");
       form.reset();
     } catch (error) {
       console.error(error);
+      if (posthogEnabled) {
+        posthog.capture("demo_request_submission_failed");
+      }
       setSubmitState("error");
     }
   };
@@ -246,6 +253,9 @@ export function ContactForm() {
               size="sm"
               className="rounded-md bg-muted text-foreground hover:bg-muted/70"
               onClick={() => {
+                if (posthogEnabled) {
+                  posthog.capture("demo_request_discarded");
+                }
                 form.reset();
                 setSubmitState("idle");
               }}
