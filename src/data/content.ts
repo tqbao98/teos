@@ -428,11 +428,11 @@ export const siteContent = {
   compliance: {
     title: "Complied with",
     standards: [
-      "IEC 62443",
-      "ISO/IEC 27001",
-      "GDPR",
-      "NIS2",
       "EU AI Act",
+      "GDPR",
+      "ISO/IEC 27001",
+      "NIS2",
+      "IEC 62443",
     ],
   },
   contact: {
