@@ -1,1 +1,0 @@
-For marketing videos: https://jitter.video/templates/search/?q=The+Vault
