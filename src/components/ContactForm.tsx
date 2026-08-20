@@ -169,7 +169,7 @@ export function ContactForm() {
                   <FieldWithIcon icon={User}>
                     <FormControl>
                       <Input
-                        placeholder="James Smith"
+                        placeholder="..."
                         autoComplete="name"
                         className="bg-white pl-9"
                         {...field}
@@ -192,7 +192,7 @@ export function ContactForm() {
                     <FormControl>
                       <Input
                         type="email"
-                        placeholder="james.smith@acme.com"
+                        placeholder="..."
                         autoComplete="email"
                         className="bg-white pl-9"
                         {...field}
@@ -214,7 +214,7 @@ export function ContactForm() {
                   <FieldWithIcon icon={Building2}>
                     <FormControl>
                       <Input
-                        placeholder="Acme Manufacturing"
+                        placeholder="..."
                         autoComplete="organization"
                         className="bg-white pl-9"
                         {...field}
