@@ -16,7 +16,7 @@ export const siteContent = {
   },
   statement: {
     lines: [
-      { prefix: "Deploy AI in ", emphasis: "hours" },
+      { prefix: "Deploy AI on sites in ", emphasis: "hours" },
       { prefix: "Connect data sources in ", emphasis: "minutes" },
       { prefix: "Understand your plants ", emphasis: "immediately" },
     ],
