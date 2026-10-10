@@ -6,8 +6,7 @@ export type TrackedSection =
   | "statement"
   | "preview"
   | "product"
-  | "impact"
-  | "compliance"
+  | "direction"
   | "contact";
 
 const viewedSections = new Set<TrackedSection>();
@@ -41,8 +40,7 @@ export function SectionViewTracker() {
   useSectionViewed("statement");
   useSectionViewed("preview");
   useSectionViewed("product");
-  useSectionViewed("impact");
-  useSectionViewed("compliance");
+  useSectionViewed("direction");
   useSectionViewed("contact");
 
   return null;

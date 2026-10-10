@@ -18,14 +18,9 @@ const Product = lazy(() =>
     default: module.Product,
   })),
 );
-const Impact = lazy(() =>
-  import("@/components/sections/Impact").then((module) => ({
-    default: module.Impact,
-  })),
-);
-const Compliance = lazy(() =>
-  import("@/components/sections/Compliance").then((module) => ({
-    default: module.Compliance,
+const Direction = lazy(() =>
+  import("@/components/sections/Direction").then((module) => ({
+    default: module.Direction,
   })),
 );
 const ContactCTA = lazy(() =>
@@ -77,22 +72,12 @@ function App() {
         </DeferredSection>
 
         <DeferredSection
-          id="impact"
-          minHeight="920px"
-          fallback={<SectionFallback label="impact" />}
+          id="direction"
+          minHeight="520px"
+          fallback={<SectionFallback label="direction" />}
         >
-          <Suspense fallback={<SectionFallback label="impact" />}>
-            <Impact />
-          </Suspense>
-        </DeferredSection>
-
-        <DeferredSection
-          id="compliance"
-          minHeight="180px"
-          fallback={<SectionFallback label="compliance" />}
-        >
-          <Suspense fallback={<SectionFallback label="compliance" />}>
-            <Compliance />
+          <Suspense fallback={<SectionFallback label="direction" />}>
+            <Direction />
           </Suspense>
         </DeferredSection>
 

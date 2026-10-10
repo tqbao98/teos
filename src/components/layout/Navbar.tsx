@@ -83,7 +83,7 @@ export function Navbar() {
             tabIndex={showCta ? undefined : -1}
             aria-hidden={!showCta}
           >
-            Book a demo
+            Book a short call
           </Button>
         </div>
       </div>

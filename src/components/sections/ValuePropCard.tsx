@@ -97,7 +97,7 @@ function ConnectMockup() {
 }
 
 function UnderstandMockup() {
-  const nodes = [
+  const assetRows = [
     { label: "Packaging Hall", level: 0 },
     { label: "Line 2 — Extruder", level: 1 },
     { label: "Temperature · 72.4 °C", level: 2, active: true },
@@ -116,19 +116,19 @@ function UnderstandMockup() {
             Plant hierarchy
           </p>
           <div className="space-y-1.5">
-            {nodes.map((node) => (
+            {assetRows.map((row) => (
               <div
-                key={node.label}
+                key={row.label}
                 className="flex items-center gap-2"
-                style={{ paddingLeft: `${node.level * 10}px` }}
+                style={{ paddingLeft: `${row.level * 10}px` }}
               >
                 <span
-                  className={`h-1.5 w-1.5 shrink-0 rounded-full ${node.active ? "bg-primary" : "bg-border"}`}
+                  className={`h-1.5 w-1.5 shrink-0 rounded-full ${row.active ? "bg-primary" : "bg-border"}`}
                 />
                 <span
-                  className={`truncate text-xs ${node.active ? "font-medium text-foreground" : "text-muted-foreground"}`}
+                  className={`truncate text-xs ${row.active ? "font-medium text-foreground" : "text-muted-foreground"}`}
                 >
-                  {node.label}
+                  {row.label}
                 </span>
               </div>
             ))}
@@ -156,17 +156,17 @@ function ActMockup() {
       <div className="rounded-xl border border-white/80 bg-white/90 p-4 shadow-sm backdrop-blur-sm">
         <div className="flex items-center justify-between gap-2">
           <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Anomaly agent
+            Operations Copilot
           </span>
           <span className="shrink-0 rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-semibold text-primary">
-            &lt;10ms
+            Needs approval
           </span>
         </div>
         <div className="mt-2 rounded-lg bg-amber-50 px-2.5 py-2 text-xs text-amber-900">
-          Vibration spike on Pump P-101
+          Pump P-101 is above its vibration band. The procedure calls for a bearing check.
         </div>
         <div className="mt-2 flex flex-wrap gap-1.5">
-          {["Running", "Shadow", "Active"].map((chip, i) => (
+          {["Explain", "Recommend", "Approve"].map((chip, i) => (
             <span
               key={chip}
               className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
@@ -186,9 +186,9 @@ function ActMockup() {
 
 function ManageMockup() {
   const agents = [
-    { name: "Predictive Maintenance", health: 98, status: "healthy" as const },
-    { name: "Quality Optimizer", health: 94, status: "healthy" as const },
-    { name: "Energy Balancer", health: 71, status: "warn" as const },
+    { name: "Operations Copilot", status: "Ready" },
+    { name: "Procedure library", status: "Ready" },
+    { name: "Approval queue", status: "Review" },
   ];
 
   return (
@@ -202,36 +202,31 @@ function ManageMockup() {
 
         <div className="grid grid-cols-2 gap-2 px-4 py-3">
           <div className="rounded-lg bg-muted/60 px-2.5 py-2">
-            <p className="text-sm font-semibold text-foreground">12</p>
-            <p className="text-[10px] text-muted-foreground">Agents deployed</p>
+            <p className="text-sm font-semibold text-foreground">Local</p>
+            <p className="text-[10px] text-muted-foreground">Where it runs</p>
           </div>
           <div className="rounded-lg bg-muted/60 px-2.5 py-2">
-            <p className="text-sm font-semibold text-foreground">99.9%</p>
-            <p className="text-[10px] text-muted-foreground">Uptime</p>
+            <p className="text-sm font-semibold text-foreground">On-prem</p>
+            <p className="text-[10px] text-muted-foreground">Data stays here</p>
           </div>
         </div>
 
         <div className="border-t border-border/40 px-4 py-3">
           <p className="mb-2 text-[10px] font-medium text-muted-foreground">
-            Deployed agents
+            In this workspace
           </p>
           <div className="space-y-2">
             {agents.map((agent) => (
-              <div key={agent.name} className="space-y-1">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="truncate text-xs font-medium text-foreground">
-                    {agent.name}
-                  </span>
-                  <span className="shrink-0 text-[10px] text-muted-foreground">
-                    {agent.health}%
-                  </span>
-                </div>
-                <div className="h-1 w-full overflow-hidden rounded-full bg-border/60">
-                  <div
-                    className={`h-full rounded-full ${agent.status === "healthy" ? "bg-emerald-500" : "bg-amber-500"}`}
-                    style={{ width: `${agent.health}%` }}
-                  />
-                </div>
+              <div
+                key={agent.name}
+                className="flex items-center justify-between gap-2"
+              >
+                <span className="truncate text-xs font-medium text-foreground">
+                  {agent.name}
+                </span>
+                <span className="shrink-0 text-[10px] text-muted-foreground">
+                  {agent.status}
+                </span>
               </div>
             ))}
           </div>
