@@ -39,7 +39,7 @@ export function Hero() {
         <Meteors number={30} paused={meteorsPaused} />
       </div>
 
-      <div className="absolute inset-x-0 top-[42%] z-20 flex -translate-y-1/2 flex-col items-center px-4 text-center sm:top-[38%] sm:px-6 lg:px-8">
+      <div className="absolute inset-x-0 top-[30%] z-20 flex -translate-y-1/2 flex-col items-center px-4 text-center sm:top-[32%] sm:px-6 lg:top-[33%] lg:px-8">
         <p className="text-sm font-medium text-muted-foreground sm:text-base">
           {hero.eyebrow}
         </p>
@@ -47,6 +47,10 @@ export function Hero() {
         <h1 className="mt-3 max-w-3xl font-[family-name:var(--font-cal)] text-[clamp(2.5rem,6.5vw,5.5rem)] font-semibold leading-[1.1] tracking-tight text-foreground sm:mt-4 lg:max-w-none lg:whitespace-nowrap">
           Intelligence for <em className="italic">industrial plants</em>
         </h1>
+
+        <p className="mt-4 max-w-2xl text-balance text-base leading-relaxed text-muted-foreground sm:mt-5 sm:text-lg">
+          {hero.subheadline}
+        </p>
 
         <div className="mt-5 sm:mt-7">
           <Button
@@ -63,7 +67,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 z-10 h-[58%] overflow-hidden sm:h-[62%]">
+      <div className="absolute inset-x-0 bottom-0 z-10 h-[52%] overflow-hidden sm:h-[56%] lg:h-[60%]">
         <Globe className="absolute -top-6 left-1/2 aspect-square w-[min(1400px,170%)] max-w-none -translate-x-1/2 sm:-top-8" />
       </div>
     </section>

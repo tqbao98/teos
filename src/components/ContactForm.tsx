@@ -102,7 +102,7 @@ export function ContactForm() {
           email: values.email,
           company: values.company,
           note: values.note ?? "",
-          _subject: "Teos demo request",
+          _subject: "Teos short call request",
         }),
       });
 
